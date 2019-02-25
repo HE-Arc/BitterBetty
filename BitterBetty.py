@@ -1,5 +1,6 @@
 # coding: utf-8
 from subprocess import call
+from FliteSpeaker import FliteSpeaker
 
 class BitterBetty:
 	"""BitterBetty is a bitter bot"""
@@ -8,16 +9,16 @@ class BitterBetty:
 		"""Construct Betty"""
 		pass
 
-	def _speak_(self, phrase):
+	def speak(self, phrase):
 		"""
-		Make Betty speaks using flite
+		Make Betty speaks using FliteSpeaker
 
 		:param phrase: text that Betty will say
 		"""
-		call(["flite", "-voice", "slt", "-t", phrase])
+		FliteSpeaker.speak(phrase)
 
 	def ola(self):
-		self._speak_("Ola Amiga, how are you ?")
+		FliteSpeaker.speak("Ola Amiga, how are you ?")
 
 
 if __name__ == "__main__":
