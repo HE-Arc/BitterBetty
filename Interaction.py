@@ -2,6 +2,8 @@
 
 import sys, os
 
+import BitterBetty
+
 poems_dir = "poems"
 
 def list_poems():
@@ -14,12 +16,17 @@ def list_poems():
     return path_names_writers
 
 def read_file(file_path):
+    print(file_path)
     try:
-        content = os.read(file_path)
+        f= open(file_path, "r")
+        content = f.read()
         print(content)
-        return(content)
-    except:
+        return content
+    except Exception as e:
         print("error while reading file")
+        print(e)
+    finally:
+        f.close()
 
 class ConsoleInteraction:
 
@@ -33,8 +40,16 @@ class ConsoleInteraction:
         for num, poem in zip(range(1, len(poems)+1), poems):
             print(f"{num}. {poem['name']} by {poem['author']}")
         user_choice = int(input("Number: "))
-        print(f"choice: {user_choice}")
-        read_file("poems\" + poems[user_choice-1]['path'])
+        # print(f"choice: {user_choice}")
+        poem_path = "poems/" + poems[user_choice-1]['path']
+        # print(f"poem path: {poem_path}")
+        text = read_file(poem_path)
+        try:
+            BitterBetty.BitterBetty().speak(text)
+        except FileNotFoundError:
+            print("BitterBetty is not execute on the BeagleBone...")
+        
+
         
 
     def quit(self):
