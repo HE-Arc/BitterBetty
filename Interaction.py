@@ -38,7 +38,7 @@ class ConsoleInteraction:
         poems = list_poems()
         print("Chose a poem to read:")
         for num, poem in zip(range(1, len(poems)+1), poems):
-            print(f"{num}. {poem['name']} by {poem['author']}")
+            print("{0}. {1} by {2}".format(num, poem['name'], poem['author']))
         user_choice = int(input("Number: "))
         # print(f"choice: {user_choice}")
         poem_path = "poems/" + poems[user_choice-1]['path']
@@ -47,6 +47,7 @@ class ConsoleInteraction:
         try:
             BitterBetty.BitterBetty().speak(text)
         except FileNotFoundError:
+            print("Error")
             print("BitterBetty is not execute on the BeagleBone...")
         
 
