@@ -35,10 +35,19 @@ class ConsoleInteraction:
         pass
 
     def _user_choose_(self):
-        print("Chose a poem to read:")
-        for num, poem in zip(range(1, len(self.poems)+1), self.poems):
-            print("{0}. {1} by {2}".format(num, poem['name'], poem['author']))
-        user_choice = int(input("Number: "))
+        is_valid = False
+        while(not is_valid):
+            print("Chose a poem to read:")
+            for num, poem in zip(range(1, len(self.poems)+1), self.poems):
+                print("{0}. {1} by {2}".format(num, poem['name'], poem['author']))
+            try:
+                user_choice = int(input("Number: "))
+                if user_choice > len(self.poems) or user_choice < 1:
+                    raise ValueError
+                is_valid = True
+            except:
+                continue
+
         # print(f"choice: {user_choice}")
         return user_choice
 
