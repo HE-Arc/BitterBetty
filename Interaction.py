@@ -71,16 +71,16 @@ class ConsoleInteraction:
 
 class LoopInteraction:
 
-    def __init__(self):
+    def __init__(self, user_choice = 2):
         self.consoleInteraction = ConsoleInteraction()
+        self.user_choice = user_choice
 
     def start(self):
         run = True
-        user_choice = self.consoleInteraction._user_choose_()
         while(run):
             try:
                 print("Betty start to read...")
-                self.consoleInteraction._read_selected_(user_choice)
+                self.consoleInteraction._read_selected_(self.user_choice)
             except FileNotFoundError as fnfe:
                 print(fnfe)
                 run = False
@@ -101,6 +101,8 @@ interactions = {
 if __name__ == "__main__":
     inter = None
     try:
+        if sys.argv[2]:
+            inter = interactions[sys.argv[1]](sys.argv[2])
         inter = interactions[sys.argv[1]]()
     except:
         inter = interactions["loop"]()
