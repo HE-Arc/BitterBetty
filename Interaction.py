@@ -47,7 +47,6 @@ class ConsoleInteraction:
                 is_valid = True
             except:
                 continue
-
         # print(f"choice: {user_choice}")
         return user_choice
 
