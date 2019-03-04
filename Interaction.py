@@ -31,23 +31,28 @@ def read_file(file_path):
 class ConsoleInteraction:
 
     def __init__(self):
+        self.poems = list_poems()
         pass
 
-    def start(self):
-        # print("Welcome to console inteaction !")
-        poems = list_poems()
+    def _user_choose_(self):
         print("Chose a poem to read:")
-        for num, poem in zip(range(1, len(poems)+1), poems):
+        for num, poem in zip(range(1, len(self.poems)+1), self.poems):
             print("{0}. {1} by {2}".format(num, poem['name'], poem['author']))
         user_choice = int(input("Number: "))
         # print(f"choice: {user_choice}")
-        poem_path = "poems/" + poems[user_choice-1]['path']
-        # print(f"poem path: {poem_path}")
+        return user_choice
+
+    def _read_selected_(self, user_choice):
+        poem_path = "poems/" + self.poems[user_choice-1]['path']
         content = read_file(poem_path)
+        betty = BitterBetty()
+        for line in content:
+            betty.speak(line)
+
+    def start(self):
+        user_choice = self._user_choose_()
         try:
-            betty = BitterBetty()
-            for line in content:
-                betty.speak(line)
+            self._read_selected_(user_choice)
         except FileNotFoundError as e:
             print(e)
             quit()
@@ -63,11 +68,17 @@ class LoopInteraction:
 
     def start(self):
         run = True
+        user_choice = self.consoleInteraction._user_choose_()
         while(run):
             try:
-                self.consoleInteraction.start()
-            except:
+                print("Betty start to read...")
+                self.consoleInteraction._read_selected_(user_choice)
+            except FileNotFoundError as fnfe:
+                print(fnfe)
+                run = False
+            except Exception as e:
                 print("An error as occured...")
+                print(e)
                 res = input("Would you like to continue ? (y/n)")
                 if res is "n":
                     run = False
