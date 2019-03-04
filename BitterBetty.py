@@ -7,7 +7,8 @@ class BitterBetty:
 
 	def __init__(self):
 		"""Construct Betty"""
-		pass
+		if not FliteSpeaker.fliteAvaible():
+			raise FileNotFoundError("Wrong plateform... BitterBetty cannot speaks without flite.")
 
 	def speak(self, phrase):
 		"""

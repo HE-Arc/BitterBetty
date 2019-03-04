@@ -34,7 +34,7 @@ class ConsoleInteraction:
         pass
 
     def start(self):
-        print("Welcome to console inteaction !")
+        # print("Welcome to console inteaction !")
         poems = list_poems()
         print("Chose a poem to read:")
         for num, poem in zip(range(1, len(poems)+1), poems):
@@ -48,18 +48,35 @@ class ConsoleInteraction:
             betty = BitterBetty()
             for line in content:
                 betty.speak(line)
-        except FileNotFoundError:
-            print("Error")
-            print("BitterBetty is not execute on the BeagleBone...")
-        
-
-        
+        except FileNotFoundError as e:
+            print(e)
+            quit()
+          
 
     def quit(self):
         quit()
 
+class LoopInteraction:
+
+    def __init__(self):
+        self.consoleInteraction = ConsoleInteraction()
+
+    def start(self):
+        run = True
+        while(run):
+            try:
+                self.consoleInteraction.start()
+            except:
+                print("An error as occured...")
+                res = input("Would you like to continue ? (y/n)")
+                if res is "n":
+                    run = False
+                
+
+
 interactions = {
     "console": ConsoleInteraction,
+    "loop" : LoopInteraction,
 }
 
 if __name__ == "__main__":
@@ -67,5 +84,5 @@ if __name__ == "__main__":
     try:
         inter = interactions[sys.argv[1]]()
     except:
-        inter = interactions["console"]()
+        inter = interactions["loop"]()
     inter.start()
