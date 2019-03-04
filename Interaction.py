@@ -2,7 +2,7 @@
 
 import sys, os
 
-import BitterBetty
+from BitterBetty import BitterBetty
 
 poems_dir = "poems"
 
@@ -16,11 +16,11 @@ def list_poems():
     return path_names_writers
 
 def read_file(file_path):
-    print(file_path)
+    # print(file_path)
     try:
         f= open(file_path, "r")
-        content = f.read()
-        print(content)
+        content = f.readlines()
+        # print(content)
         return content
     except Exception as e:
         print("error while reading file")
@@ -43,9 +43,11 @@ class ConsoleInteraction:
         # print(f"choice: {user_choice}")
         poem_path = "poems/" + poems[user_choice-1]['path']
         # print(f"poem path: {poem_path}")
-        text = read_file(poem_path)
+        content = read_file(poem_path)
         try:
-            BitterBetty.BitterBetty().speak(text)
+            betty = BitterBetty()
+            for line in content:
+                betty.speak(line)
         except FileNotFoundError:
             print("Error")
             print("BitterBetty is not execute on the BeagleBone...")

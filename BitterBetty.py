@@ -15,6 +15,7 @@ class BitterBetty:
 
 		:param phrase: text that Betty will say
 		"""
+		print(phrase)
 		FliteSpeaker.speak(phrase)
 
 	def ola(self):
